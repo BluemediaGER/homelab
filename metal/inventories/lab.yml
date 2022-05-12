@@ -1,0 +1,10 @@
+metal:
+  children:
+    masters:
+      hosts:
+        lab-mini-1: {ansible_host: 192.168.1.21, mac: '4c:52:62:1c:bf:6c', disk: '/dev/nvme0n1'}
+        lab-mini-2: {ansible_host: 192.168.1.22, mac: '4c:52:62:0f:09:6d', disk: '/dev/nvme0n1'}
+        lab-mini-3: {ansible_host: 192.168.1.23, mac: '4c:52:62:0f:0a:23', disk: '/dev/nvme0n1'}
+    workers:
+      hosts:
+        lab-mini-4: {ansible_host: 192.168.1.24, mac: '90:1b:0e:f8:e8:af', disk: '/dev/nvme0n1'}

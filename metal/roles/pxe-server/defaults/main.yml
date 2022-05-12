@@ -1,0 +1,11 @@
+os_download_url: "https://deb.debian.org/debian/dists/bullseye/main/installer-amd64/current/images/netboot/netboot.tar.gz"
+os_download_checksum: "sha256:ec3b71964457f30a57061ea758c12394bf2b792b461c697e61cc2d47053c5878"
+
+user_fullname: "Lab User"
+username: "lab"
+domain: "lab.bluemedia.dev"
+
+subnet: "192.168.6.0"
+netmask: "255.255.255.0"
+gateway: "192.168.6.1"
+nameserver: "192.168.6.1"

@@ -1,0 +1,10 @@
+- name: Build PXE environment
+  hosts: localhost
+  roles:
+    - pxe-server
+
+- name: Provision OS on machines
+  hosts: metal
+  gather_facts: false
+  roles:
+    - wol-wake

@@ -1,0 +1,8 @@
+- name: Send magic packets
+  community.general.wakeonlan:
+    mac: "{{ hostvars[inventory_hostname]['mac'] }}"
+  delegate_to: localhost
+
+- name: Wait for machines to come online with installed OS
+  wait_for_connection:
+    timeout: 600

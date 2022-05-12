@@ -1,0 +1,10 @@
+set timeout=1
+
+menuentry 'Auto install Debian Bullseye (PXE)' {
+    set background_color=black
+    linux linux \
+        vga=788 \
+        url=http://{{ ansible_default_ipv4.address }}/preseed/${net_default_mac}.conf \
+        --- auto quiet
+    initrd initrd.gz
+}
