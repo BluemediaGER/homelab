@@ -8,11 +8,7 @@ os-install:
 		--ask-vault-pass \
 		install-os.yml
 
-cluster:
-	ansible-playbook \
-		--inventory inventories/lab.yml \
-		cluster.yml
-
 console:
 	ansible-console \
+        --ask-vault-pass \
 		--inventory inventories/lab.yml
