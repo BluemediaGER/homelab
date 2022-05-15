@@ -1,7 +1,7 @@
 #!/bin/bash
 
-docker-compose \
-    --project-directory ./metal/roles/pxe-server/files/ \
+docker compose \
+    --project-name pxe \
     logs \
-    --f \
+    --follow \
     ${@}

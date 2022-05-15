@@ -32,6 +32,7 @@
 - name: Start PXE stack
   docker_compose:
     project_src: "{{ role_path }}/files"
+    project_name: "pxe"
     state: present
     restarted: true
     build: true

@@ -10,13 +10,15 @@ services:
     build: ./tftp
     network_mode: host
     volumes:
-      - ./data/pxe-config/grub.cfg:/var/lib/tftpboot/grub.cfg
+      - ./data/os/debian-installer/amd64/grub:/var/lib/tftpboot/debian-installer/amd64/grub
+      - ./data/pxe-config/grub.cfg:/var/lib/tftpboot/debian-installer/amd64/grub/grub.cfg
       - ./data/os/debian-installer/amd64/grubx64.efi:/var/lib/tftpboot/grubx64.efi
       - ./data/os/debian-installer/amd64/initrd.gz:/var/lib/tftpboot/initrd.gz
       - ./data/os/debian-installer/amd64/linux:/var/lib/tftpboot/linux
-  http:
-    image: nginx:latest
-    network_mode: host
-    volumes:
-      - ./data/os:/usr/share/nginx/html/os:ro
-      - ./data/preseed:/usr/share/nginx/html/preseed:ro
+      - ./data/preseed:/var/lib/tftpboot/preseed
+  #http:
+  #  image: nginx:latest
+  #  network_mode: host
+  #  volumes:
+  #    - ./data/os:/usr/share/nginx/html/os:ro
+  #    - ./data/preseed:/usr/share/nginx/html/preseed:ro

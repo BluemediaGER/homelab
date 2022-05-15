@@ -8,3 +8,9 @@
   gather_facts: false
   roles:
     - wol-wake
+
+- name: Tear down PXE stack
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - pxe-teardown

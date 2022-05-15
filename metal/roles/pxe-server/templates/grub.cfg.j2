@@ -2,9 +2,13 @@ set timeout=1
 
 menuentry 'Auto install Debian Bullseye (PXE)' {
     set background_color=black
+    set
     linux linux \
         vga=788 \
-        url=http://{{ ansible_default_ipv4.address }}/preseed/${net_default_mac}.conf \
-        --- auto quiet
+        auto=true \
+        url=tftp://{{ ansible_default_ipv4.address }}/preseed/${net_default_mac}.cfg \
+        priority=critical \
+        ipv6.disable=1 \
+        --- quiet
     initrd initrd.gz
 }

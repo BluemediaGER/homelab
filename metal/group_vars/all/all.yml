@@ -1,0 +1,14 @@
+ansible_ssh_private_key_file: ~/.ssh/id_rsa
+ssh_public_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+# Network config
+subnet: "192.168.6.0"
+netmask: "255.255.255.0"
+gateway: "192.168.6.1"
+nameserver: "192.168.6.1"
+domain: "lab.bluemedia.dev"
+
+# User config from vault
+user_fullname: "{{ vault_user_fullname }}"
+ansible_user: "{{ vault_ansible_user }}"
+ansible_become_password: "{{ vault_ansible_become_password }}"

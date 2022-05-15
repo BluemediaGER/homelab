@@ -1,3 +1,4 @@
+#_preseed_V1
 # For documentation see: https://www.debian.org/releases/stable/example-preseed.txt
 
 # Set default locale and keyboard layout
@@ -6,6 +7,9 @@ d-i keyboard-configuration/xkb-keymap select {{ keyboard_layout | default('de') 
 
 # Set network interface used by default
 d-i netcfg/choose_interface select auto
+
+# Work around the problem that the network configuration is not applied, because the preseed file is loaded after it already completed. So we just run the network configuration again! :D
+d-i preseed/early_command string kill-all-dhcp; netcfg
 
 # Static network config
 d-i netcfg/disable_autoconfig boolean true
@@ -40,9 +44,9 @@ d-i passwd/root-login boolean false
 
 # Create new user
 d-i passwd/user-fullname string {{ user_fullname | default('Debian User') }}
-d-i passwd/username string {{ username | default('debian') }}
-d-i passwd/user-password password {{ password | default('insecure') }}
-d-i passwd/user-password-again password {{ password | default('insecure') }}
+d-i passwd/username string {{ ansible_user | default('debian') }}
+d-i passwd/user-password password {{ ansible_become_password | default('insecure') }}
+d-i passwd/user-password-again password {{ ansible_become_password | default('insecure') }}
 
 # Setup timezone and NTP server
 d-i clock-setup/utc boolean true
@@ -63,8 +67,7 @@ d-i apt-setup/cdrom/set-first boolean false
 d-i apt-setup/disable-cdrom-entries boolean true
 
 # Install openssh-server and basic system tools
-d-i pkgsel/run_tasksel boolean false
-d-i pkgsel/include string openssh-server build-essential
+tasksel tasksel/first multiselect standard, ssh-server
 d-i pkgsel/upgrade select safe-upgrade
 
 # Disable package reporting
@@ -73,6 +76,16 @@ popularity-contest popularity-contest/participate boolean false
 # Install grub to specified device
 d-i grub-installer/only_debian boolean true
 d-i grub-installer/bootdev string {{ hostvars[item]['disk'] | default('/dev/sda') }}
+
+# Configure openssh-server. Include public key, disable root login and passord based login.
+d-i preseed/late_command string in-target mkdir -p /home/{{ ansible_user | default('debian') }}/.ssh/ ; \
+                                in-target /bin/sh -c 'echo "{{ ssh_public_key }}" >> /home/{{ ansible_user | default('debian') }}/.ssh/authorized_keys' ; \
+                                in-target chmod -R 700 /home/{{ ansible_user | default('debian') }}/.ssh/ ; \
+                                in-target chown -R {{ ansible_user | default('debian') }}:{{ ansible_user | default('debian') }} /home/{{ ansible_user | default('debian') }}/.ssh/ ; \
+                                in-target grep -q '^PermitRootLogin ' /etc/ssh/sshd_config || in-target sh -c 'echo "PermitRootLogin no" >> /etc/ssh/sshd_config' ; \
+                                in-target sed 's/^PermitRootLogin .*/PermitRootLogin no/' -i /etc/ssh/sshd_config ; \
+                                in-target grep -q '^PasswordAuthentication ' /etc/ssh/sshd_config || in-target sh -c 'echo "PasswordAuthentication no" >> /etc/ssh/sshd_config' ; \
+                                in-target sed 's/^PasswordAuthentication .*/PasswordAuthentication no/' -i /etc/ssh/sshd_config
 
 # Reboot to installed system without confirmation
 d-i finish-install/reboot_in_progress note
