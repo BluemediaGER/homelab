@@ -1,0 +1,11 @@
+- name: Tear down PXE stack
+  docker_compose:
+    project_name: "pxe"
+    project_src: "{{ playbook_dir }}/roles/pxe-server/files/"
+    state: absent
+
+- name: Remove preseed files
+  file:
+    path: "{{ playbook_dir }}/roles/pxe-server/files/data/preseed/{{ hostvars[item]['mac'] }}.cfg"
+    state: "absent"
+  loop: "{{ groups['metal'] }}"

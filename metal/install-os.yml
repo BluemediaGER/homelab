@@ -9,8 +9,8 @@
   roles:
     - wol-wake
 
-- name: Tear down PXE stack
+- name: Clean up playbook execution
   hosts: localhost
   gather_facts: false
   roles:
-    - pxe-teardown
+    - pxe-cleanup
