@@ -30,9 +30,4 @@
   loop: "{{ groups['metal'] }}"
 
 - name: Start PXE stack
-  docker_compose:
-    project_src: "{{ role_path }}/files"
-    project_name: "pxe"
-    state: present
-    restarted: true
-    build: true
+  ansible.builtin.command: "docker compose --project-name pxe -f {{ role_path }}/files/docker-compose.yml up -d --build"

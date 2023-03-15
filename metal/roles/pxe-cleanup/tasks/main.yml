@@ -1,8 +1,5 @@
 - name: Tear down PXE stack
-  docker_compose:
-    project_name: "pxe"
-    project_src: "{{ playbook_dir }}/roles/pxe-server/files/"
-    state: absent
+  ansible.builtin.command: "docker compose --project-name pxe down"
 
 - name: Remove preseed files
   file:

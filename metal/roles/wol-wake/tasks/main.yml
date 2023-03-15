@@ -5,4 +5,4 @@
 
 - name: Wait for machines to come online with installed OS
   wait_for_connection:
-    timeout: 600
+    timeout: 900

@@ -1,2 +1,2 @@
 os_download_url: "https://deb.debian.org/debian/dists/bullseye/main/installer-amd64/current/images/netboot/netboot.tar.gz"
-os_download_checksum: "sha256:ec3b71964457f30a57061ea758c12394bf2b792b461c697e61cc2d47053c5878"
+os_download_checksum: "sha256:e8edf26ac9837d7dbbcfd96f47f51530260a6c68568938978e1b63ea698d5663"
