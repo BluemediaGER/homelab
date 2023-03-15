@@ -1,0 +1,7 @@
+[Match]
+MACAddress={{ hostvars[inventory_hostname]['mac'] }}
+
+[Network]
+Address={{ hostvars[inventory_hostname]['ansible_host'] }}/{{ (hostvars[inventory_hostname]['ansible_host'] + '/' + netmask) | ansible.utils.ipaddr('prefix') }}
+Gateway={{ gateway }}
+DNS={{ nameserver }}

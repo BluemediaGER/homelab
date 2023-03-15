@@ -9,8 +9,13 @@
   roles:
     - wol-wake
 
-- name: Clean up playbook execution
+- name: Clean up PXE environment
   hosts: localhost
   gather_facts: false
   roles:
     - pxe-cleanup
+
+- name: Configure networking
+  hosts: metal
+  roles:
+    - systemd-networkd

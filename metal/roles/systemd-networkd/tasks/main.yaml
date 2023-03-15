@@ -1,0 +1,28 @@
+- name: "Configure systemd-networkd"
+  become: true
+  block:
+  - name: "Render network config"
+    template:
+      src: default.network.j2
+      dest: "/etc/systemd/network/default.network"
+      mode: 0644
+
+  - name: "Enable systemd-networkd"
+    ansible.builtin.systemd:
+      name: systemd-networkd
+      enabled: true
+
+  - name: "Remove /etc/network"
+    ansible.builtin.file:
+      path: /etc/network
+      state: absent
+
+  - name: "Reboot with systemd-networkd configured"
+    ansible.builtin.reboot:
+      reboot_timeout: 180
+
+  - name: "Remove ifupdown"
+    ansible.builtin.apt:
+      name: ifupdown
+      state: absent
+      purge: true
